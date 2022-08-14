@@ -169,7 +169,7 @@ import numpy as np
 from sklearn.linear_model import LogisticRegression
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split, cross_val_score, KFold
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import ConfusionMatrixDisplay, accuracy_score, precision_score, recall_score, f1_score
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.feature_selection import RFECV
 
@@ -419,22 +419,15 @@ y_pred_prob = clf.predict_proba(X_test)[:,1]
 
 A Confusion Matrix provides us a visual way to understand how our predictions match up against the actual values for those test set observations.
 
-The below code creates the Confusion Matrix using the *confusion_matrix* functionality from within scikit-learn and then plots it using matplotlib.
+The below code creates the Confusion Matrix using the *ConfusionMatrixDisplay* functionality from within scikit-learn and then plots it using matplotlib.
 
 ```python
 
-# create the confusion matrix
-conf_matrix = confusion_matrix(y_test, y_pred_class)
-
-# plot the confusion matrix
-plt.style.use("seaborn-poster")
-plt.matshow(conf_matrix, cmap = "coolwarm")
-plt.gca().xaxis.tick_bottom()
+# creates and plots the confusion matrix
+disp = ConfusionMatrixDisplay.from_predictions(y_test, y_pred_class, cmap = "coolwarm")
 plt.title("Confusion Matrix")
 plt.ylabel("Actual Class")
 plt.xlabel("Predicted Class")
-for (i, j), corr_value in np.ndenumerate(conf_matrix):
-    plt.text(j, i, corr_value, ha = "center", va = "center", fontsize = 20)
 plt.show()
 
 ```
