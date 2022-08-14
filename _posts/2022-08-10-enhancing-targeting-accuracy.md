@@ -447,14 +447,14 @@ Since the proportion of signups in our data was around 30:70 we will next analys
 
 Classification Accuracy is a metric that tells us *of all predicted observations, what proportion did we correctly classify*.  This is very intuitive, but when dealing with imbalanced classes, can be misleading.  
 
-An example of this could be a rare disease. A model with a 98% Classification Accuracy on might appear like a fantastic result, but if our data contained 98% of patients *without* the disease, and 2% *with* the disease - then a 98% Classification Accuracy could be obtained simply by predicting that *no one* has the disease - which wouldn't be a great model in the real world.  Luckily, there are other metrics which can help us!
+An example of this could be a rare disease. A model with a 98% Classification Accuracy on might appear like a fantastic result, but if our data contained 98% of patients *without* the disease, and 2% *with* the disease - then a 98% Classification Accuracy could be obtained simply by predicting that *no one* has the disease - which wouldn't be a great model in the real world. 
 
 In this example of the rare disease, we could define Classification Accuracy as *of all predicted patients, what proportion did we correctly classify as either having the disease, or not having the disease*
 
 <br>
 **Precision & Recall**
 
-Precision is a metric that tells us *of all observations that were predicted as positive, how many actually were positive*
+Precision is a metric that tells us *of all observations that were predicted as positive, how many were actually positive*
 
 Keeping with the rare disease example, Precision would tell us *of all patients we predicted to have the disease, how many actually did*
 
@@ -462,9 +462,9 @@ Recall is a metric that tells us *of all positive observations, how many did we 
 
 Again, referring to the rare disease example, Recall would tell us *of all patients who actually had the disease, how many did we correctly predict*
 
-The tricky thing about Precision & Recall is that it is impossible to optimise both - it's a zero-sum game.  If you try to increase Precision, Recall decreases, and vice versa.  Sometimes however it will make more sense to try and elevate one of them, in spite of the other.  In the case of our rare-disease prediction like we've used in our example, perhaps it would be more important to optimise for Recall as we want to classify as many positive cases as possible.  In saying this however, we don't want to just classify every patient as having the disease, as that isn't a great outcome either!
+The tricky thing about Precision & Recall is that it is impossible to optimise both - it's a zero-sum game.  If you try to increase Precision, Recall decreases, and vice versa.  Sometimes however it will make more sense to try and elevate one of them, in spite of the other.  In the case of our rare-disease prediction like we've used in our example, perhaps it would be more important to optimise for Recall as we want to classify as many positive cases as possible.  In saying this however, we don't just want to classify every patient as having the disease, as that isn't a great outcome either!
 
-So - there is one more metric we will discuss & calculate, which is actually a *combination* of both...
+So - there is one more metric we will use, which is actually a *combination* of both...
 
 <br>
 **F1 Score**
@@ -476,7 +476,7 @@ Overall, optimising your model for F1-Score means that you'll get a model that i
 Using all of these metrics in combination gives a really good overview of the performance of a classification model, and gives us an understanding of the different scenarios & considerations!
 
 <br>
-In the code below, we utilise in-built functionality from scikit-learn to calculate these four metrics.
+In the code below, we utilise the in-built functionality from scikit-learn to calculate these four metrics.
 
 ```python
 
@@ -501,7 +501,7 @@ Running this code gives us:
 * Recall = **0.69** meaning that of all *actual* delivery club signups, we predicted correctly 69% of the time
 * F1-Score = **0.734** 
 
-Since our data is *somewhat* imbalanced, looking at these metrics rather than just Classification Accuracy on it's own - is a good idea, and gives us a much better understanding of what our predictions mean!  We will use these same metrics when applying other models for this task, and can compare how they stack up.
+Since our data is *somewhat* imbalanced, looking at these metrics rather than just Classification Accuracy on it's own, is a good idea, and gives us a much better understanding of what our predictions mean. We will use these same metrics when applying other models for this task, and can compare how they stack up.
 
 <br>
 ### Finding The Optimal Classification Threshold <a name="logreg-opt-threshold"></a>
@@ -586,7 +586,7 @@ We will again utlise the scikit-learn library within Python to model our data us
 <br>
 ### Data Import <a name="clftree-import"></a>
 
-Since we saved our modelling data as a pickle file, we import it.  We ensure we remove the id column, and we also ensure our data is shuffled.
+Since we saved our modelling data as a pickle file, we import it.  We ensure we removed the id column, and we also ensure our data is shuffled.
 
 Just like we did for Logistic Regression - our code also investigates the class balance of our dependent variable.
 
@@ -600,7 +600,7 @@ import numpy as np
 from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split, cross_val_score, KFold
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import ConfusionMatrixDisplay, accuracy_score, precision_score, recall_score, f1_score
 from sklearn.preprocessing import OneHotEncoder
 
 # import modelling data
@@ -642,7 +642,7 @@ data_for_model.dropna(how = "any", inplace = True)
 
 In exactly the same way we did for Logistic Regression, in the next code block we do two things, we firstly split our data into an **X** object which contains only the predictor variables, and a **y** object that contains only our dependent variable.
 
-Once we have done this, we split our data into training and test sets to ensure we can fairly validate the accuracy of the predictions on data that was not used in training.  In this case, we have allocated 80% of the data for training, and the remaining 20% for validation.  Again, we make sure to add in the *stratify* parameter to ensure that both our training and test sets have the same proportion of customers who did, and did not, sign up for the *delivery club* - meaning we can be more confident in our assessment of predictive performance.
+Once we have done this, we split our data into training and test sets to ensure we can fairly validate the accuracy of the predictions on data that was not used in training.  In this case, we have allocated 80% of the data for training, and the remaining 20% for validation.  Again, we made sure to add in the *stratify* parameter to ensure that both our training and test sets have the same proportion of customers who did, and did not sign up for the *delivery club* - meaning we can be more confident in our assessment of predictive performance.
 
 
 <br>
@@ -730,22 +730,15 @@ y_pred_prob = clf.predict_proba(X_test)[:,1]
 
 As we discussed in the above section applying Logistic Regression - a Confusion Matrix provides us a visual way to understand how our predictions match up against the actual values for those test set observations.
 
-The below code creates the Confusion Matrix using the *confusion_matrix* functionality from within scikit-learn and then plots it using matplotlib.
+The below code creates the Confusion Matrix using the *ConfusionMatrixDisplay* functionality from within scikit-learn and then plots it using matplotlib.
 
 ```python
 
-# create the confusion matrix
-conf_matrix = confusion_matrix(y_test, y_pred_class)
-
-# plot the confusion matrix
-plt.style.use("seaborn-poster")
-plt.matshow(conf_matrix, cmap = "coolwarm")
-plt.gca().xaxis.tick_bottom()
+# creates and plots the confusion matrix
+disp = ConfusionMatrixDisplay.from_predictions(y_test, y_pred_class, cmap = "coolwarm")
 plt.title("Confusion Matrix")
 plt.ylabel("Actual Class")
 plt.xlabel("Predicted Class")
-for (i, j), corr_value in np.ndenumerate(conf_matrix):
-    plt.text(j, i, corr_value, ha = "center", va = "center", fontsize = 20)
 plt.show()
 
 ```
@@ -886,7 +879,7 @@ We will again utlise the scikit-learn library within Python to model our data us
 <br>
 ### Data Import <a name="rf-import"></a>
 
-Again, since we saved our modelling data as a pickle file, we import it.  We ensure we remove the id column, and we also ensure our data is shuffled.
+Again, since we saved our modelling data as a pickle file, we import it.  We ensure we removed the id column, and we also ensure our data is shuffled.
 
 As this is the exact same process we ran for both Logistic Regression & the Decision Tree - our code also investigates the class balance of our dependent variable
 
@@ -900,7 +893,7 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split, cross_val_score, KFold
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import ConfusionMatrixDisplay, accuracy_score, precision_score, recall_score, f1_score
 from sklearn.preprocessing import OneHotEncoder
 from sklearn.inspection import permutation_importance
 
@@ -1031,22 +1024,16 @@ y_pred_prob = clf.predict_proba(X_test)[:,1]
 
 As we discussed in the above sections - a Confusion Matrix provides us a visual way to understand how our predictions match up against the actual values for those test set observations.
 
-The below code creates the Confusion Matrix using the *confusion_matrix* functionality from within scikit-learn and then plots it using matplotlib.
+The below code creates the Confusion Matrix using the *ConfusionMatrixDisplay* functionality from within scikit-learn and then plots it using matplotlib.
 
 ```python
 
-# create the confusion matrix
+# creates and plots the confusion matrix
+disp = ConfusionMatrixDisplay.from_predictions(y_test, y_pred_class, cmap = "coolwarm")
 conf_matrix = confusion_matrix(y_test, y_pred_class)
-
-# plot the confusion matrix
-plt.style.use("seaborn-poster")
-plt.matshow(conf_matrix, cmap = "coolwarm")
-plt.gca().xaxis.tick_bottom()
 plt.title("Confusion Matrix")
 plt.ylabel("Actual Class")
 plt.xlabel("Predicted Class")
-for (i, j), corr_value in np.ndenumerate(conf_matrix):
-    plt.text(j, i, corr_value, ha = "center", va = "center", fontsize = 20)
 plt.show()
 
 ```
@@ -1200,7 +1187,7 @@ import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.utils import shuffle
 from sklearn.model_selection import train_test_split, cross_val_score, KFold
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import ConfusionMatrixDisplay, accuracy_score, precision_score, recall_score, f1_score
 from sklearn.preprocessing import OneHotEncoder, MinMaxScaler
 from sklearn.feature_selection import RFECV
 
@@ -1247,7 +1234,7 @@ data_for_model.dropna(how = "any", inplace = True)
 <br>
 ##### Outliers
 
-As KNN is a distance based algorithm, you could argue that if a data point is a long way away, then it will simply never be selected as one of the neighbours - and this is true - but outliers can still cause us problems here.  The main issue we face is when we come to scale our input variables, a very important step for a distance based algorithm.
+As KNN is a distance based algorithm, you could argue that if a data point is a long way away, then it will simply never be selected as one of the neighbours - and this is true - but outliers can still cause us problems here.  The main issue we face is when we come to scale our input variables, the latter of which is a very important step for a distance based algorithm.
 
 We don't want any variables to be "bunched up" due to a single outlier value, as this will make it hard to compare their values to the other input variables.  We should always investigate outliers rigorously - in this case we will simply remove them.
 
@@ -1486,22 +1473,15 @@ y_pred_prob = clf.predict_proba(X_test)[:,1]
 
 As we've seen with all models so far, our Confusion Matrix provides us a visual way to understand how our predictions match up against the actual values for those test set observations.
 
-The below code creates the Confusion Matrix using the *confusion_matrix* functionality from within scikit-learn and then plots it using matplotlib.
+The below code creates the Confusion Matrix using the *ConfusionMatrixDisplay* functionality from within scikit-learn and then plots it using matplotlib.
 
 ```python
 
-# create the confusion matrix
-conf_matrix = confusion_matrix(y_test, y_pred_class)
-
-# plot the confusion matrix
-plt.style.use("seaborn-poster")
-plt.matshow(conf_matrix, cmap = "coolwarm")
-plt.gca().xaxis.tick_bottom()
+# creates and plots the confusion matrix
+disp = ConfusionMatrixDisplay.from_predictions(y_test,y_pred_class, cmap = "coolwarm")
 plt.title("Confusion Matrix")
 plt.ylabel("Actual Class")
 plt.xlabel("Predicted Class")
-for (i, j), corr_value in np.ndenumerate(conf_matrix):
-    plt.text(j, i, corr_value, ha = "center", va = "center", fontsize = 20)
 plt.show()
 
 ```
@@ -1643,7 +1623,7 @@ ___
 <br>
 # Application <a name="modelling-application"></a>
 
-We now have a model object, and a the required pre-processing steps to use this model for the next *delivery club* campaign.  When this is ready to launch we can aggregate the neccessary customer information and pass it through, obtaining predicted probabilities for each customer signing up.
+We now have a model object, and also the required pre-processing steps to use this model for the next *delivery club* campaign.  When this is ready to launch we can aggregate the neccessary customer information and pass it through, obtaining predicted probabilities for each customer signing up.
 
 Based upon this, we can work with the client to discuss where their budget can stretch to, and contact only the customers with a high propensity to join.  This will drastically reduce marketing costs, and result in a much improved ROI.
 
