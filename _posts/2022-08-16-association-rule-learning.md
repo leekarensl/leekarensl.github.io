@@ -173,7 +173,7 @@ A high score for Confidence can mean a strong product relationship - but not alw
 
 Expected Confidence is quite simple, it is the percentage of *all transactions* that *contained item B*.
 
-This is important as it provides indication of what the Confidence *would be* if there were no relationship between the items.  We can use Expected Confidence, along with Confidence to calculate our final (and most powerful) metric - Lift!
+This is important as it provides indication of what the Confidence *would be* if there were no relationship between the items.  We can use Expected Confidence, along with Confidence to calculate our final (and most powerful) metric - Lift.
 
 <br>
 ##### Lift
@@ -393,7 +393,7 @@ The results of this search, in order of descending Lift are as follows:
 <br>
 There appears to be *some* relationship between New Zealand wines and other New Zealand wines, but what is also interesting is that New Zealand wines seem to be more associated with French & South American wines than they are with Australian Wines.
 
-New Zealand & Australia are often grouped together, but in terms of wine this wouldn't make sense - perhaps because of the difference climates the wines are very different and thus it wouldn't make sense to group wines by geographical proximity, but by preference instead.  This is only a hypothesis for now - we will need to take this back to the client and get their category experts to help us interpret it!
+New Zealand & Australia are often grouped together, but the above findings suggest that it may make more sense to group wines by preference rather than by geographical proximity. This is of course only a hypothesis for now - we will need to take this back to the client and get their category experts to help us interpret it.
 
 ___
 <br>
