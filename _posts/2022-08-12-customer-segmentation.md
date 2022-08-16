@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Customer Segmentation Using k-means
-image: "/posts/clustering-title-img.png"
+image: "/posts/segmentation-title-img.png"
 tags: [Customer Segmentation, Machine Learning, Clustering, Python]
 ---
 
