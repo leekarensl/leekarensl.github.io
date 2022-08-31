@@ -2,7 +2,7 @@
 layout: post
 title: Fruit Classification Using A Convolutional Neural Network
 image: "/posts/cnn-fruit-classification-title-img.png"
-tags: [Deep Learning, CNN, Data Science, Python]
+tags: [Deep Learning, CNN, Computer Vision, Data Science, Python]
 ---
 
 In this project we build and optimise a Convolutional Neural Network to classify images of fruits, with the goal of helping a grocery retailer enhance and scale their sorting and delivery processes. 
