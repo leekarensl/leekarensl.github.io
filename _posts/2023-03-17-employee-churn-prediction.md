@@ -111,7 +111,7 @@ After this data pre-processing in Python, we have a dataset for modelling that c
 <br>
 # Modelling Overview  <a name="modelling-overview"></a>
 
-We will build a model that looks to accurately predict *leave*, based upon the employee data listed above.
+We will build a model that looks to accurately predict *Left*, based upon the employee data listed above.
 
 If that can be achieved, we can use this model to predict the probability of future employee leaving, allowing the company to act, minimising the chance of the company losing a good employee. 
 
@@ -209,7 +209,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, rando
 ```
 In the code above we firstly split our data into an X object which contains only the predictor variables, and a y object that contains only our dependent variable. We then use the SMOTETomek sampling method to create a more balanced dataset.
 
-Once we have done this, we split our data into training and test sets to ensure we can fairly validate the accuracy of the predictions on data that was not used in training. In this case, we have allocated 80% of the data for training, and the remaining 20% for validation. We use the stratfy parameter to ensure that both our training and test sets have the same proportion of employees who stayed in the company or left, meaning that we can be more confident in our assessment of the model's predictive performance.
+Once we have done this, we split our data into training and test sets to ensure we can fairly validate the accuracy of the predictions on data that was not used in training. In this case, we have allocated 80% of the data for training, and the remaining 20% for validation. We use the stratify parameter to ensure that both our training and test sets have the same proportion of employees who stayed in the company or left, meaning that we can be more confident in our assessment of the model's predictive performance.
 
 <br>
 
@@ -236,7 +236,7 @@ clf.fit(X_train, y_train)
 
 ##### Predict On The Test Set
 
-Just like we did with Logistic Regression & our Decision Tree, to assess how well our model is predicting on new data - we use the trained model object (here called *clf*) and ask it to predict the *Left* variable for the test set.
+We need to assess how well our model is predicting on new data - we use the trained model object (here called *clf*) and ask it to predict the *Left* variable for the test set.
 
 In the code below we create one object to hold the binary 1/0 predictions, and another to hold the actual prediction probabilities for the positive class.
 
@@ -275,7 +275,7 @@ The aim is to have a high proportion of observations falling into the top left c
 Since the proportion of leavers in our data was around 16:84 we will analyse the model accuracy not only using Classification Accuracy, but also Precision, Recall, and F1-Score as they will help us assess how well our model has performed from different points of view.
 
 <br>
-##### Classification Performance Metrics
+#### Classification Performance Metrics
 <br>
 **Classification Accuracy**
 
@@ -377,7 +377,7 @@ That code gives us the plot as seen below:
 ![alt text](/img/posts/rf2-classification-feature-importance.png "Random Forest Feature Importance Plot")
 
 <br>
-It appears that Age, Job Satisfaction and Job Experience (Total Working Years, Years at Company) are the top 4 drivers in explaining employee churn.
+It appears that Age, Job Satisfaction and Job Experience (Total Working Years, Years at Company) are the top drivers in explaining employee churn.
 
 ___
 <br>
