@@ -23,7 +23,7 @@ avatar_image: /img/squared_photo.png
 #-------------------------------
 # Contact links
 linkedln: "https://www.linkedin.com/in/karen-sl-lee/" # Add your linkedln handle
-github: "https://leekarensl.github.io/"  # Add your github handle
+github: "https://github.com/leekarensl"  # Add your github handle
 
 paginate: 6
 paginate_path: "/page/:num"
