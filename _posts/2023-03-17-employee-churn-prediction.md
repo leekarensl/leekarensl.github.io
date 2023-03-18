@@ -115,7 +115,7 @@ We will build a model that looks to accurately predict *Left*, based upon the em
 
 If that can be achieved, we can use this model to predict the probability of future employee leaving, allowing the company to act, minimising the chance of the company losing a good employee. 
 
-As we are predicting a binary output and due to the unbalanced nature of the dataset, we will be using the Decision Tree algorithm.
+As we are predicting a binary output and due to the unbalanced nature of the dataset, we will be using the Random Forest algorithm.
 
 
 <br>
