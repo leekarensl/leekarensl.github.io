@@ -94,15 +94,15 @@ The provided dataset contains the following fields...
 | Gender | Independent | The gender of the customer, categorised as M for Male or F for Female |
 | Dependent_count | Independent | Number of dependents |
 | Education_Level| Independent | Educational qualification of the account holder |
-| NumCompaniesWorked | Independent | The total number companies the employee has worked in |
-| Over18 | Independent | If the employee is over 18, categorised as Y or N |
-| workingfromhome | Independent | If the employee has the option of working from home or not, categorised as Yes or No |
-| BusinessTravel | Independent | How frequently the employee travels for work, categorised as Travel_Rarely, Travel_Frequently or Non_Travel |
-| DistanceFromHome | Independent | The distance in miles the employee lives from their work place |
-| StandardHours | Independent | The number of working hours per week |
-| JobSatisfaction | Independent | The job satisfaction score of the employee, with 1 as the lowest and 4 as the highest score |
-| complaintfiled | Independent | If the employee has ever filed a complaint with the company |
-| PercentSalaryHike | Independent | The most recent percentage salary increase of the employee |
+| Marital_Status | Independent | The marital status of the customer. Values are Married, Single, Divorced or Unknown|
+| Income_category| Independent | Annual Income of the account holder - <$40k, $40k - 60k, $60k - 80k, $80k - 120k, >$120k|
+| Card_Category | Independent | The type of card the account holder has - Blue, Silver, Gold or Platinum |
+| Months_on_book | Independent | The period of relationship the account holder has with the bank|
+| Total_Relationship_Count | Independent | The number of products held by the customer|
+| Months_Inactive_12_mon| Independent | The number of months inactive for the last 12 months |
+| Contacts_Count_12_mon | Independent | The number of contacts in the last 12 months |
+| Credit_Limit | Independent | The credit limit of the account holder on the card |
+| Total_Revolving_Bal | Independent | The customer's total revolving balance on the credit card |
 | PerformanceRating | Independent | The employee's most recent performance rating, with 1 as the lowest and 5 as the highest score |
 | TotalWorkingYears | Independent | The employee's total number of working experience |
 | YearsAtCompany | Independent | The employee's tenure in years in the company |
