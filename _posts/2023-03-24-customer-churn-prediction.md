@@ -312,6 +312,7 @@ The aim is to have a high proportion of observations falling into the top left c
 
 Since the proportion of churners in our data was around 16:84 we will analyse the model accuracy not only using Classification Accuracy, but also Precision, Recall, and F1-Score as they will help us assess how well our model has performed from different points of view.
 
+<br>
 
 #### Classification Performance Metrics
 
@@ -372,7 +373,7 @@ Running this code gives us:
 * Recall = **0.935** meaning that of all *actual* leavers, we predicted correctly 93.5% of the time
 * F1-Score = **0.859**
 
-
+<br>
 
 ### Feature Importance and Permutation Importance <a name="rf-model-feature-importance"></a>
 
@@ -415,8 +416,9 @@ plt.xlabel("Feature Importance")
 plt.tight_layout()
 plt.show()
 ```
+<br>
 
-That code gives us the plot as seen below:
+The above code gives us the plot as seen below:<br>
 
 ![alt text](/img/posts/bank-feature-importance.png "Balanced Random Forest Feature Importance Plot")
 
@@ -527,8 +529,11 @@ plt.legend()
 
 ![alt text](/img/posts/total-revolving-bal.png "Total Revolving Balance Leavers vs Stayers")
 
+<br>
+
 It appears that customers who leave the credit card service with the bank have fewer transaction counts as well as lower transaction amounts spent on the card. They also tend to have a lower revolving balance.
 ___
+
 <br>
 
 # Application <a name="modelling-application"></a>
