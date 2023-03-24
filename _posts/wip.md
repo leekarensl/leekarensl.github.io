@@ -39,7 +39,6 @@ As the client is also interested in the drivers behind their customer churn, we 
 
 Finally, as the dataset is highly unbalanced, we will also ensure that we do not rely on the classification accuracy alone when assessing the results. We will also be analysing Precision, Recall and the F1-Score. We will import the data but will need to pre-process the data based on the requirement for the Balanced Random Forest algorithm. We will then train and test the model and then measure the predictive performance using Classification Accuracy, Precision, Recall and F1 scores.
 
-<br>
 
 ### Results <a name="overview-results"></a>
 
@@ -448,19 +447,96 @@ plt.show()
 ![alt text](/img/posts/bank-permutation-importance.png "Balanced Random Forest Permutation Importance Plot")
 <br>
 
-The overall story from both approaches appears to be fairly similar. Permuation Importance is also flagging that the top 2 drivers were Total_Trans_Ct and Total_Trans_Amt but it thinks the 3rd and 4th key drivers were the number of products the customer has with the bank (Total)Rwlationship_Count) and the total revolving balance the customer has on the credit card (Total_Revolving_Bal)
+The overall story from both approaches appears to be fairly similar. Permuation Importance is also flagging that the top 2 drivers were Total_Trans_Ct and Total_Trans_Amt but it thinks the 3rd and 4th key drivers were the number of products the customer has with the bank (Total_Relationship_Count) and the total revolving balance the customer has on the credit card (Total_Revolving_Bal)
 
 Permutation Importance is often preferred over Feature Importance as the latter can at times inflate the importancea of the dataset's numerical features. Both are however useful, and in most cases will give fairly similar results.
+
+___
+
+## Further Exploratory Analysis
+
+Now that we have the top key drivers that influence customer churn, let's look at the relationship between each of these variables with the the target variable and see if we can spot further trends.
+
+**Total Transaction Count**
+
+```python
+plt.figure(figsize=(15,6))
+plt.style.use('seaborn-v0_8-dark')
+plt.grid(True, alpha = 1)
+sns.kdeplot(bankchurn_corr.loc[bankchurn_corr['target'] == 1, 'Total_Trans_Ct'], label = 'Attrited Customers')
+sns.kdeplot(bankchurn_corr.loc[bankchurn_corr['target'] == 0, 'Total_Trans_Ct'], label = 'Existing Customers')
+plt.xlabel('Total Transaction Count')
+plt.xlim(left=10, right=140)
+plt.ylabel('Density')
+plt.title('Total Transaction Count - Attrited vs Existing Customer')
+plt.legend()
+```
+
+![alt text](/img/posts/bank-total-transaction-count.png "Total Transaction Count Leavers vs Stayers")
+
+<br>
+
+**Total Transaction Amount**
+
+```python
+plt.figure(figsize=(15,6))
+plt.style.use('seaborn-v0_8-dark')
+plt.grid(True, alpha = 1)
+sns.kdeplot(bankchurn_corr.loc[bankchurn_corr['target'] == 1, 'Total_Trans_Amt'], label = 'Attrited Customers')
+sns.kdeplot(bankchurn_corr.loc[bankchurn_corr['target'] == 0, 'Total_Trans_Amt'], label = 'Existing Customers')
+plt.xlabel('Revolving Balance')
+plt.xlim(left=500, right=18500)
+plt.ylabel('Density')
+plt.title('Total Transaction Amount - Attrited vs Existing Customer')
+plt.legend()
+```
+
+![alt text](/img/posts/bank-total-transaction-amt.png "Total Transaction Amount Leavers vs Stayers")
+
+**Total Number of Products the Customer has with the Bank (Total_Relationship_Count)**
+
+```python
+plt.figure(figsize=(15,6))
+plt.style.use('seaborn-v0_8-dark')
+plt.grid(True, alpha = 1)
+sns.kdeplot(bankchurn_corr.loc[bankchurn_corr['target'] == 1, 'Total_Relationship_Count'], label = 'Attrited Customers')
+sns.kdeplot(bankchurn_corr.loc[bankchurn_corr['target'] == 0, 'Total_Relationship_Count'], label = 'Existing Customers')
+plt.xlabel('Total Number of Products The Customer Has with the Bank')
+plt.xlim(left=1, right=8)
+plt.ylabel('Density')
+plt.title('Total Number of Products the Customer Has with the Bank - Attrited vs Existing Customer')
+plt.legend()
+```
+![alt text](/img/posts/total-relationship-count.png "Total Relationship Count Leavers vs Stayers")
+
+**Total Revolving Balance**
+
+```python
+plt.figure(figsize=(15,6))
+plt.style.use('seaborn-v0_8-dark')
+plt.grid(True, alpha = 1)
+sns.kdeplot(bankchurn_corr.loc[bankchurn_corr['target'] == 1, 'Total_Revolving_Bal'], label = 'Attrited Customers')
+sns.kdeplot(bankchurn_corr.loc[bankchurn_corr['target'] == 0, 'Total_Revolving_Bal'], label = 'Existing Customers')
+plt.xlabel('Revolving Balance')
+plt.xlim(left=0, right=3000)
+plt.ylabel('Density')
+plt.title('Total Revolving Balance - Attrited vs Existing Customer')
+plt.legend()
+```
+
+![alt text](/img/posts/total-revolving-bal.png "Total Revolving Balance Leavers vs Stayers")
 
 
 ___
 <br>
+
 # Application <a name="modelling-application"></a>
 
 We now have a model object, and the required pre-processing steps to use this model for the next time the company receives new employee data.  When this is ready to launch we can feed the neccessary employee information, obtaining predicted probabilities for each employee leaving.
 
 ___
 <br>
+
 # Growth & Next Steps <a name="growth-next-steps"></a>
 
 While predictive accuracy was relatively high - other modelling approaches could be tested, especially those somewhat similar to Random Forest, for example XGBoost, LightGBM to see if even more accuracy could be gained.
