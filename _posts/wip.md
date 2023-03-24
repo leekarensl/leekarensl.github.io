@@ -243,6 +243,7 @@ bankchurn_corr = pd.get_dummies(bankchurn_corr, columns = ['Card_Category'],drop
 Let's now shuffle the data and split our data into an X object which contain the independent variables and the y object that contains only our dependent variable.  Once we have done this, we will split our data into training and test sets to ensure we can faily validate the accuracy of the predictions on data was not used in training. In this case, we have allocated 80% of the data for training, and the remaining 20% for validation. We will make sure to add in the stratify parameter to ensure that both our training and test sets have the same proportion of customers who did, and did not, churn - meaning we can be more confident in our assessment of predictive performance.
 
 <br>
+
 ```python
 # shuffling the data first
 bankchurn_corr = shuffle(bankchurn_corr, random_state = 42)
@@ -253,7 +254,6 @@ y = bankchurn_corr["target"]
 
 # split out training & test sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42, stratify = y)
-
 ```
 
 <br>
@@ -403,11 +403,8 @@ For each Decision Tree, all of the Out of Bag observations are gathered and then
 
 In order to understand the importance, we randomise the values within one of the input variables - a process that essentially destroys any relationship that might exist between that input variable and the output variable - and run that updated data through the Decision Tree again, obtaining a second accuracy score. The difference between the original accuracy and the new accuracy gives us a view on how important that particular variable is for predicting the output.
 
-Permutation Importance is often preferred over Feature Importance which can at times inflate the importance of numerical features. Both are useful, and in most cases will give fairly similar results.
-
 Let's examine both Feature and Permutation Importance:
 
-<br>
 ```python
 
 # calculate feature importance
@@ -424,16 +421,14 @@ plt.title("Feature Importance of Balanced Random Forest")
 plt.xlabel("Feature Importance")
 plt.tight_layout()
 plt.show()
-
 ```
-<br>
+
 That code gives us the plot as seen below:
 
-<br>
 ![alt text](/img/posts/bank-feature-importance.png "Balanced Random Forest Feature Importance Plot")
 
 <br>
-It appears that Feature Importance is flagging that Total_Trans_Ct, Total_Trans_Amt, Total_Ct_Change_Q4_Q1 an Total_Amt_Chng_Q4_Q1 are the most important drivers of customer churn.
+It appears that Feature Importance is flagging that Total_Trans_Ct, Total_Trans_Amt, Total_Ct_Change_Q4_Q1 an Total_Amt_Chng_Q4_Q1 are the most important drivers of customer churn. <br>
 
 So what will Permutation Importance flag as the most important drivers?
 
@@ -455,9 +450,14 @@ plt.xlabel("Permutation Importance")
 plt.tight_layout()
 plt.show()
 ```
-<br>
+
 ![alt text](/img/posts/bank-permutation-importance.png "Balanced Random Forest Permutation Importance Plot")
 <br>
+
+The overall story from both approaches appears to be fairly similar. Permuation Importance is also flagging that the top 2 drivers were Total_Trans_Ct and Total_Trans_Amt but it thinks the 3rd and 4th key drivers were the number of products the customer has with the bank (Total)Rwlationship_Count) and the total revolving balance the customer has on the credit card (Total_Revolving_Bal)
+
+Permutation Importance is often preferred over Feature Importance as the latter can at times inflate the importancea of the dataset's numerical features. Both are however useful, and in most cases will give fairly similar results.
+
 
 ___
 <br>
