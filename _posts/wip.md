@@ -161,8 +161,9 @@ df_bankchurn.isnull().sum()
 ```
 Let's understand the balance of the dataset as that will help determine what algorithm to use for the model. This is also important when assessing classification accuracy.
 
-'''python
+```python
 df_bankchurn["Attrition_Flag"].value_counts(normalize = True)
+
 ```
 
 It appears that dataset is highly imbalanced with 84% choosing to stay with their credit cards while 16% chose to terminate their card.
@@ -392,23 +393,34 @@ So, at a high level, in a Random Forest, we can measure *importance* by asking *
 
 If this decrease in performance, or accuracy, is large, then we’d deem that input variable to be quite important, and if we see only a small decrease in accuracy, then we’d conclude that the variable is of less importance.
 
-One way of doing this is called **Feature Importance**. This is where we find all nodes in the Decision Trees of the forest where a particular input variable is used to split the data and assess what the gini impurity score (for a Classification problem) was before the split was made, and compare this to the gini impurity score after the split was made.  We can take the *average* of these improvements across all Decision Trees in the Random Forest to get a score that tells us *how much better* we’re making the model by using that input variable.
+One way of doing this is called **Feature Importance**. This is where we find all nodes in the Decision Trees of the forest where a particular input variable is used to split the data and assess what the gini impurity score (for a Classification problem) was before the split was made, and compare this to the gini impurity score after the split was made.  We can take the *average* of these improvements across all Decision Trees in the Random Forest to get a score that tells us *how much better* we’re making the model by using that input variable. If we do this for *each* of our input variables, we can compare these scores and understand which is adding the most value to the predictive power of the model.
 
-If we do this for *each* of our input variables, we can compare these scores and understand which is adding the most value to the predictive power of the model!
+The other approach, often called **Permutation Importance** cleverly uses some data that has gone unused at when random samples are selected for each Decision Tree (this stage is called “bootstrap sampling” or “bootstrapping”)
+
+These observations that were not randomly selected for each Decision Tree are known as Out of Bag observations and these can be used for testing the accuracy of each particular Decision Tree.
+
+For each Decision Tree, all of the Out of Bag observations are gathered and then passed through. Once all of these observations have been run through the Decision Tree, we obtain a classification accuracy score for these predictions.
+
+In order to understand the importance, we randomise the values within one of the input variables - a process that essentially destroys any relationship that might exist between that input variable and the output variable - and run that updated data through the Decision Tree again, obtaining a second accuracy score. The difference between the original accuracy and the new accuracy gives us a view on how important that particular variable is for predicting the output.
+
+Permutation Importance is often preferred over Feature Importance which can at times inflate the importance of numerical features. Both are useful, and in most cases will give fairly similar results.
+
+Let's examine both Feature and Permutation Importance:
 
 <br>
 ```python
 
 # calculate feature importance
-feature_importance = pd.DataFrame(clf.feature_importances_)
+feature_importance = pd.DataFrame(brf.feature_importances_)
 feature_names = pd.DataFrame(X.columns)
 feature_importance_summary = pd.concat([feature_names,feature_importance], axis = 1)
 feature_importance_summary.columns = ["input_variable","feature_importance"]
 feature_importance_summary.sort_values(by = "feature_importance", inplace = True)
 
 # plot feature importance
+plt.figure(figsize = (8,8)
 plt.barh(feature_importance_summary["input_variable"],feature_importance_summary["feature_importance"])
-plt.title("Feature Importance of Random Forest")
+plt.title("Feature Importance of Balanced Random Forest")
 plt.xlabel("Feature Importance")
 plt.tight_layout()
 plt.show()
@@ -418,10 +430,34 @@ plt.show()
 That code gives us the plot as seen below:
 
 <br>
-![alt text](/img/posts/rf2-classification-feature-importance.png "Random Forest Feature Importance Plot")
+![alt text](/img/posts/bank-feature-importance.png "Balanced Random Forest Feature Importance Plot")
 
 <br>
-It appears that Age, Job Satisfaction and Job Experience (Total Working Years, Years at Company) are the top drivers in explaining employee churn.
+It appears that Feature Importance is flagging that Total_Trans_Ct, Total_Trans_Amt, Total_Ct_Change_Q4_Q1 an Total_Amt_Chng_Q4_Q1 are the most important drivers of customer churn.
+
+So what will Permutation Importance flag as the most important drivers?
+
+```python
+# BRF permutation importance
+result = permutation_importance(brf, X_test, y_test, n_repeats = 10, random_state = 42)
+
+# plotting the chart
+permutation_importance = pd.DataFrame(result["importances_mean"])
+feature_names = pd.DataFrame(X.columns)
+permutation_importance_summary = pd.concat([feature_names,permutation_importance], axis = 1)
+permutation_importance_summary.columns = ["input_variable", "permutation_importance"]
+permutation_importance_summary.sort_values(by = "permutation_importance", inplace = True)
+
+plt.figure(figsize =(8,8))
+plt.barh(permutation_importance_summary["input_variable"], permutation_importance_summary["permutation_importance"])
+plt.title("Permutation Importance of Balanced Random Forest")
+plt.xlabel("Permutation Importance")
+plt.tight_layout()
+plt.show()
+```
+<br>
+![alt text](/img/posts/bank-permutation-importance.png "Balanced Random Forest Permutation Importance Plot")
+<br>
 
 ___
 <br>
