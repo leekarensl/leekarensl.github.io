@@ -80,22 +80,20 @@ ___
 
 # Data Overview  <a name="data-overview"></a>
 
-We will be predicting the binary *signup_flag* metric from the *campaign_data* table in the client database.
+We will be predicting the binary *Attrition_Flag* metric from the dataset provided by the client. The client has also requested that the last 2 columns of the dataset be deleted. These were the column names 'Naive_Bayes_Classifier_Attrition_Flag_Card_Category_Contacts_Count_12_mon_Dependent_count_Education_Level_Months_Inactive_12_mon_1' and 'Naive_Bayes_Classifier_Attrition_Flag_Card_Category_Contacts_Count_12_mon_Dependent_count_Education_Level_Months_Inactive_12_mon_2'
 
-The key variables hypothesised to predict this will come from the client database, namely the *transactions* table, the *customer_details* table, and the *product_areas* table.
-
-We aggregated up customer data from the 3 months prior to the last campaign.
-
-After this data pre-processing in Python, we have a dataset for modelling that contains the following fields...
+The provided dataset contains the following fields...
 <br>
 <br>
 
 | **Variable Name** | **Variable Type** | **Description** |
 |---|---|---|
-| Left | Dependent | The variable showing if the employee left the company or not, categorised as Yes or No|
-| Gender | Independent | The gender of the employee, categorised as Male or Female |
-| MonthlyIncome | Independent | The monthly income of the employee, categorised as low, medium or high |
-| Department | Independent | The department the employee belonged to |
+| CLIENTNUM | Independent | Unique identifier of the customer holding the account|
+| Attrition_Flag    | Dependent | If the account is closed then 1, else it is 0 |
+| Customer_Age  |   Independent | customer age in years
+| Gender | Independent | The gender of the customer, categorised as M for Male or F for Female |
+| Dependent_count | Independent | Number of dependents |
+| Education_Level| Independent | Educational qualification of the account holder |
 | NumCompaniesWorked | Independent | The total number companies the employee has worked in |
 | Over18 | Independent | If the employee is over 18, categorised as Y or N |
 | workingfromhome | Independent | If the employee has the option of working from home or not, categorised as Yes or No |
