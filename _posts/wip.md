@@ -36,44 +36,44 @@ We will use Python for the exploratory analysis and Machine Learning for this sp
 
 With the dataset provided by the client, we found that 84% of the customers actually stayed with the bank while only 16% chose to terminate their credit card service with the bank. This is a highly unbalanced dataset but it is also not unusual in most business cases. As we will be predicting a binary output, we will use a Balanced Random Forest for our classification modelling approach. As explained in my previous blog, Random Forest is partcularly good at making predictions if you have a lot of data with many features. It is a robust model using the prediction of many decision trees. Each decision tree looks at a different subset of the data and features and then makes its own prediction. The Random Forest algorithm combines all the predictions made by taking the majority vote. The **Balanced Random Forests** algorithm works pretty much the same way as the Random Forest algorithm but it is specifically designed to handle imbalanced datasets. It uses a modified sampling approach where it balances the number of samples in each class by either oversampling the minority class or undersampling the majority class. 
 
-Like the Random Forest, we will also examin both Feature Importance and Permutation Importance to understand the key drivers behind the customers leaving the credit card service.
+As the client is also interested in the drivers behind their customer churn, we will also look at both Feature Importance and Permutation Importance to understand the key drivers behind the customers leaving the credit card service.
 
-As the dataset is highly unbalanced, we will also ensure that we do not rely on the classification accuracy alone when assessing the results. We will also be analysing Precision, Recall and the F1-Score. We will import the data but will need to pre-process the data based on the requirement for the Balanced Random Forest algorithm. We will then train and test the model and then measure the predictive performance using Classification Accuracy, Precision, Recall and F1 scores.
+Finally, as the dataset is highly unbalanced, we will also ensure that we do not rely on the classification accuracy alone when assessing the results. We will also be analysing Precision, Recall and the F1-Score. We will import the data but will need to pre-process the data based on the requirement for the Balanced Random Forest algorithm. We will then train and test the model and then measure the predictive performance using Classification Accuracy, Precision, Recall and F1 scores.
 
 <br>
 <br>
 
 ### Results <a name="overview-results"></a>
 
-Random Forest was chosen as the model due to its robustness and that it will allow the client to understand the key drivers behind employees leaving. It's predictive performance are summarised as follows:
+Balanced Random Forest was chosen as the model due to its robustness and that it will allow the client to understand the key drivers behind their customers leaving their credit card service. It's predictive performance are summarised as follows:
 
 <br>
 **Metric 1**
 
-Classification Accuracy = 0.893
+Classification Accuracy = 0.951
 
 <br>
 **Metric 2**
 
-Precision = 0.884
+Precision = 0.794
 
 <br>
 **Metric 3**
 
-Recall = 0.906
+Recall = 0.935
 
 <br>
 **Metric 4**
 
-F1 Score = 0.895
+F1 Score = 0.859
 
 <br>
 <br>
 ### Growth/Next Steps <a name="overview-growth"></a>
 
-While predictive accuracy was relatively high - other modelling approaches could be tested, especially those somewhat similar to Random Forest, for example XGBoost, LightGBM to see if even more accuracy could be gained.
+While predictive accuracy was relatively high - other modelling approaches could be tested, especially those somewhat similar to Balanced Random Forest, for example XGBoost, LightGBM to see if even more accuracy could be gained.
 
-From a data point of view, further variables could be collected, and further feature engineering could be undertaken to ensure that we have as much useful information available for predicting employee churn.
+From a data point of view, further variables could be collected, and further feature engineering could be undertaken to ensure that we have as much useful information available for predicting customer churn.
 <br>
 <br>
 ___
