@@ -89,7 +89,7 @@ The provided dataset (less the 2 deleted columns) contains the following fields.
 | **Variable Name** | **Variable Type** | **Description** |
 |---|---|---|
 | CLIENTNUM | Independent | Unique identifier of the customer holding the account|
-| Attrition_Flag    | Dependent | If the account is closed then 1, else it is 0 |
+| Attrition_Flag    | Dependent | The values are 'Attrited Customer' or 'Existing Customer' |
 | Customer_Age  |   Independent | customer age in years
 | Gender | Independent | The gender of the customer, categorised as M for Male or F for Female |
 | Dependent_count | Independent | Number of dependents |
@@ -173,6 +173,19 @@ df_bankchurn.hist(figsize=(20,20))
 plt.show()
 ```
 ![histograms](/img/posts/numerical_features.png "Numerical Features Distribution")
+
+Next, we will look at some correlations. As the Attrition_Flag is categorical, we will first transform this column by replacing 'Attrited Customer' with the value of 1 and 'Existing Customer' with the value of 0. We have also changed the column name to 'target' for easy reference. As we have made some changes to the dataset, we will make a copy so that we will always have the source file to return to if need be.
+
+```python
+bankchurn_corr = df_bankchurn.copy()
+bankchurn_corr.Attrition_Flag = bankchurn_corr.Attrition_Flag.replace({'Attrited Customer':1,'Existing Customer':0})
+bankchurn_corr['target'] = bankchurn_corr['Attrition_Flag']
+bankchurn_corr = bankchurn_corr.drop(["Attrition_Flag"], axis = 'columns')
+corr = bankchurn_corr.corr(numeric_only = bool)
+sns.heatmap(corr, linewidths=2, cmap='Greys')
+```
+
+![correlation](/img/posts/correlation_matrix.png "Correlation Matrix")
 
 
 <br>
