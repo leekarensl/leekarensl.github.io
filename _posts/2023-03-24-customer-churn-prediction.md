@@ -536,7 +536,6 @@ ___
 We now have our findings as well as our model object to share with the clien. We also have the required pre-processing steps to use this model for the next time the company receives new customer data.  When this is ready to launch we can feed the neccessary customer information, obtaining predicted probabilities for each customer leaving.
 
 ___
-<br>
 
 # Growth & Next Steps <a name="growth-next-steps"></a>
 
