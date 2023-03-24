@@ -113,16 +113,16 @@ The provided dataset (less the 2 deleted columns) contains the following fields.
 <br>
 # Modelling Overview  <a name="modelling-overview"></a>
 
-We will build a model that looks to accurately predict *Left*, based upon the employee data listed above.
+We will build a model that looks to accurately predict *Attrition_Flag*, based upon the customer data listed above.
 
-If that can be achieved, we can use this model to predict the probability of future employee leaving, allowing the company to act, minimising the chance of the company losing a good employee. 
+If that can be achieved, we can use this model to predict the probability of other customers leaving, allowing the company to contact the customer and act on preventing another customer churning.
 
-As we are predicting a binary output and due to the unbalanced nature of the dataset, we will be using the Random Forest algorithm.
+As we are predicting a binary output and due to the unbalanced nature of the dataset, we will be using the Balanced Random Forest algorithm.
 
 
 <br>
 
-# Random Forest <a name="rf-title"></a>
+# Balanced Random Forest <a name="rf-title"></a>
 
 We will utlise the scikit-learn library within Python to model our data using a Random Forest. The code sections below are broken up into 4 key sections:
 
@@ -134,26 +134,27 @@ We will utlise the scikit-learn library within Python to model our data using a 
 <br>
 ### Data Import <a name="rf-import"></a>
 
-We will be importing the dataset which was in a csv format.  As 'Over18' and 'StandardHours' are 'Y' and '40' respectively for all the rows in the dataset, we have chosen to remove both columns as they will not be useful in the machine learning model.  We will also ensure that our dataset is being shuffled. In addition we will also investigate the class balance of our dependent variable.
+We will be importing the dataset which was in a csv format.  As CLIENTNUM will not be useful in the machine learning model, this will be removed.  We will also ensure that our dataset is being shuffled. In addition we will also investigate the class balance of our dependent variable.
 
 ```python
 
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-from sklearn.ensemble import RandomForestClassifier
+from imblearn.ensemble import BalancedRandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from sklearn.utils import shuffle
 from sklearn.metrics import ConfusionMatrixDisplay, precision_score, recall_score, f1_score
 from sklearn.inspection import permutation_importance
-from imblearn.combine import SMOTETomek
+
 
 # import modelling data
-data_for_model = pd.read_csv("employee.csv")
+data_for_model = pd.read_csv("bankchurners.csv")
 
-# drop uneccessary columns
-data_for_model.drop("Over18", "StadardHours" axis = 1, inplace = True)
+# drop uneccessary columns as well as those requested by the client
+data_for_model.drop(["CLIENTNUM", "Naive_Bayes_Classifier_Attrition_Flag_Card_Category_Contacts_Count_12_mon_Dependent_count_Education_Level_Months_Inactive_12_mon_1","Naive_Bayes_Classifier_Attrition_Flag_Card_Category_Contacts_Count_12_mon_Dependent_count_Education_Level_Months_Inactive_12_mon_2"]  axis = 1, inplace = True)
+
 
 # shuffle data
 data_for_model = shuffle(data_for_model, random_state = 42)
