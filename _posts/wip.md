@@ -134,7 +134,7 @@ We will utlise the scikit-learn library within Python to model our data using a 
 <br>
 ### Data Import <a name="rf-import"></a>
 
-We will be importing the dataset which was in a csv format.  As CLIENTNUM will not be useful in the machine learning model, this will be removed.  We will also ensure that our dataset is being shuffled. In addition we will also investigate the class balance of our dependent variable.
+We will be importing the dataset which was in a csv format.  As CLIENTNUM will not be useful in the machine learning model, this will be removed.  We will also ensure that our dataset is being shuffled prior to model building. 
 
 ```python
 
@@ -149,17 +149,32 @@ from sklearn.metrics import ConfusionMatrixDisplay, precision_score, recall_scor
 from sklearn.inspection import permutation_importance
 
 
-# import modelling data
-data_for_model = pd.read_csv("bankchurners.csv")
+# import data
+df_bankchurn = pd.read_csv("bankchurners.csv")
 
 # drop uneccessary columns as well as those requested by the client
 data_for_model.drop(["CLIENTNUM", "Naive_Bayes_Classifier_Attrition_Flag_Card_Category_Contacts_Count_12_mon_Dependent_count_Education_Level_Months_Inactive_12_mon_1","Naive_Bayes_Classifier_Attrition_Flag_Card_Category_Contacts_Count_12_mon_Dependent_count_Education_Level_Months_Inactive_12_mon_2"]  axis = 1, inplace = True)
 
-
-# shuffle data
-data_for_model = shuffle(data_for_model, random_state = 42)
-
 ```
+<br>
+### Exploratory Analysis <a name="rf-exploratory"></a>
+
+First, we will explore the data a little. I can confirm there were no duplicates within the dataset or any columns containing null values. This certainly helps reducing the time spent on data cleaning.
+
+```python
+df_bankchurn[df_bankchurn.duplicated()]
+df_bankchurn.isnull().sum()
+```
+
+The following graphs visualises the distribution of data for all the numerical features in the dataset.
+
+```python
+df_bankchurn.hist(figsize=(20,20))
+plt.show()
+```
+![histograms](/img/posts/numerical_features.png "Numerical Features Distribution")
+
+
 <br>
 ### Data Preprocessing <a name="rf-preprocessing"></a>
 
