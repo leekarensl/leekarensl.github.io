@@ -31,8 +31,6 @@ Our client, a bank is concerned that increasing number of their customers are ch
 
 We will use Python for the exploratory analysis and Machine Learning for this specfic task.
 
-<br>
-<br>
 ### Actions <a name="overview-actions"></a>
 
 With the dataset provided by the client, we found that 84% of the customers actually stayed with the bank while only 16% chose to terminate their credit card service with the bank. This is a highly unbalanced dataset but it is also not unusual in most business cases. As we will be predicting a binary output, we will use a Balanced Random Forest for our classification modelling approach. As explained in my previous blog, Random Forest is partcularly good at making predictions if you have a lot of data with many features. It is a robust model using the prediction of many decision trees. Each decision tree looks at a different subset of the data and features and then makes its own prediction. The Random Forest algorithm combines all the predictions made by taking the majority vote. The **Balanced Random Forests** algorithm works pretty much the same way as the Random Forest algorithm but it is specifically designed to handle imbalanced datasets. It uses a modified sampling approach where it balances the number of samples in each class by either oversampling the minority class or undersampling the majority class. 
@@ -41,7 +39,6 @@ As the client is also interested in the drivers behind their customer churn, we 
 
 Finally, as the dataset is highly unbalanced, we will also ensure that we do not rely on the classification accuracy alone when assessing the results. We will also be analysing Precision, Recall and the F1-Score. We will import the data but will need to pre-process the data based on the requirement for the Balanced Random Forest algorithm. We will then train and test the model and then measure the predictive performance using Classification Accuracy, Precision, Recall and F1 scores.
 
-<br>
 <br>
 
 ### Results <a name="overview-results"></a>
@@ -68,8 +65,6 @@ Recall = 0.935
 
 F1 Score = 0.859
 
-<br>
-<br>
 ### Growth/Next Steps <a name="overview-growth"></a>
 
 While predictive accuracy was relatively high - other modelling approaches could be tested, especially those somewhat similar to Balanced Random Forest, for example XGBoost, LightGBM to see if even more accuracy could be gained.
@@ -111,7 +106,7 @@ The provided dataset (less the 2 deleted columns) contains the following fields.
 | Total_Ct_Chng_Q4_Q1   |   Independent | The customers change in transaction count (Q4 over Q1)    |
 | Avg_Utlisation_Ratio  |   Independent | The customer's average card utilisation ratio
 
-<br>
+
 # Modelling Overview  <a name="modelling-overview"></a>
 
 We will build a model that looks to accurately predict *Attrition_Flag*, based upon the customer data listed above.
@@ -125,7 +120,7 @@ As we are predicting a binary output and due to the unbalanced nature of the dat
 
 # Exploratory Analysis <a name="exploratory-title"></a>
 
-<br>
+
 ### Data Import <a name="rf-import"></a>
 
 We will be importing the dataset which was in a csv format.  As CLIENTNUM will not be useful in analysing any trends within the data or in the building of the machine learning model, this will be removed.  We will also ensure that our dataset is being shuffled prior to model building. First, we will need to import all libraries needed for this task:
@@ -150,7 +145,8 @@ df_bankchurn = pd.read_csv("bankchurners.csv")
 data_for_model.drop(["CLIENTNUM", "Naive_Bayes_Classifier_Attrition_Flag_Card_Category_Contacts_Count_12_mon_Dependent_count_Education_Level_Months_Inactive_12_mon_1","Naive_Bayes_Classifier_Attrition_Flag_Card_Category_Contacts_Count_12_mon_Dependent_count_Education_Level_Months_Inactive_12_mon_2"]  axis = 1, inplace = True)
 
 ```
-<br>
+
+
 ### Exploring the Dataset <a name="rf-exploratory"></a>
 
 First, I can confirm there were no duplicates within the dataset or any columns containing null values. This certainly helps in reducing the time spent on data cleaning.
@@ -216,7 +212,7 @@ Due to the highly imbalance dataset, we will utlise the scikit-learn library wit
 * Performance Assessment
 
 
-<br>
+
 ### Data Preprocessing <a name="rf-preprocessing"></a>
 
 Unlike other classification models like Logistic Regression, a benefit of using Random Forest, including Balanced Random Forest, is that it is not susceptible to the effects of outliers or highly correlated input variables. However as there are a number of categorical independent variables in this dataset, these will need to be pre-processed. As an example, one of the categorical variables in the dataset is Gender where values are 'Male' or 'Female'. The Random Forest algorithm can't deal with data in this format as it can't assign any numerical meaning to it when assessing the relationship between the Gender independent variable and the dependent variable. As gender doesn't have any explicit order to it, in other words, Male isn't higher or lower than Female and vice versa, one approach is to apply One Hot Encoding to this and all other categorical columns.
@@ -237,7 +233,7 @@ bankchurn_corr = pd.get_dummies(bankchurn_corr, columns = ['Card_Category'],drop
 
 ```
 
-<br>
+
 ##### Splitting the Data For Modelling
 
 Let's now shuffle the data and split our data into an X object which contain the independent variables and the y object that contains only our dependent variable.  Once we have done this, we will split our data into training and test sets to ensure we can faily validate the accuracy of the predictions on data was not used in training. In this case, we have allocated 80% of the data for training, and the remaining 20% for validation. We will make sure to add in the stratify parameter to ensure that both our training and test sets have the same proportion of customers who did, and did not, churn - meaning we can be more confident in our assessment of predictive performance.
@@ -276,7 +272,7 @@ brf.fit(X_train, y_train)
 
 ```
 
-<br>
+
 ### Model Performance Assessment <a name="rf-model-assessment"></a>
 
 ##### Predict On The Test Set
@@ -293,7 +289,6 @@ y_pred_prob = brf.predict_proba(X_test)[:,1]
 
 ```
 
-<br>
 ##### Confusion Matrix
 
 A Confusion Matrix provides us a visual way to understand how our predictions match up against the actual values for those test set observations.
@@ -311,7 +306,6 @@ plt.show()
 
 ```
 
-<br>
 ![alt text](/img/posts/bank-confusion-matrix.png "Balanced Random Forest Confusion Matrix")
 
 <br>
@@ -319,9 +313,9 @@ The aim is to have a high proportion of observations falling into the top left c
 
 Since the proportion of churners in our data was around 16:84 we will analyse the model accuracy not only using Classification Accuracy, but also Precision, Recall, and F1-Score as they will help us assess how well our model has performed from different points of view.
 
-<br>
+
 #### Classification Performance Metrics
-<br>
+
 **Classification Accuracy**
 
 Classification Accuracy is a metric that tells us *of all predicted observations, what proportion did we correctly classify*.  This is very intuitive, but when dealing with imbalanced classes, can be misleading.  
@@ -330,7 +324,7 @@ An example of this could be a rare disease. A model with a 98% Classification Ac
 
 In this example of the rare disease, we could define Classification Accuracy as *of all predicted patients, what proportion did we correctly classify as either having the disease, or not having the disease*
 
-<br>
+
 **Precision & Recall**
 
 Precision is a metric that tells us *of all observations that were predicted as positive, how many actually were positive*
@@ -345,7 +339,7 @@ The tricky thing about Precision & Recall is that it is impossible to optimise b
 
 So - there is one more metric which is actually a *combination* of both.
 
-<br>
+
 **F1 Score**
 
 F1-Score is a metric that essentially "combines" both Precision & Recall.  Technically speaking, it is the harmonic mean of these two metrics.  A good, or high, F1-Score comes when there is a balance between Precision & Recall, rather than a disparity between them.
@@ -380,7 +374,7 @@ Running this code gives us:
 * F1-Score = **0.859**
 
 
-<br>
+
 ### Feature Importance <a name="rf-model-feature-importance"></a>
 
 Random Forests are an ensemble model, made up of many, many Decision Trees, each of which is different due to the randomness of the data being provided, and the random selection of input variables available at each potential split point.
