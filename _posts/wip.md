@@ -16,9 +16,10 @@ Our client, a bank, is concerned that increasing number of customers are leaving
     - [Growth/Next Steps](#overview-growth)
 - [01. Data Overview](#data-overview)
 - [02. Modelling Overview](#modelling-overview)
-- [03. Random Forest](#rf-title)
-- [04. Application](#modelling-application)
-- [05. Growth & Next Steps](#growth-next-steps)
+- [03. Exploratory Analysis](#exploratory-title)
+- [04. Random Forest](#rf-title)
+- [05. Application](#modelling-application)
+- [06. Growth & Next Steps](#growth-next-steps)
 
 ___
 
@@ -122,19 +123,12 @@ As we are predicting a binary output and due to the unbalanced nature of the dat
 
 <br>
 
-# Balanced Random Forest <a name="rf-title"></a>
-
-We will utlise the scikit-learn library within Python to model our data using a Random Forest. The code sections below are broken up into 4 key sections:
-
-* Data Import
-* Data Preprocessing
-* Model Training
-* Performance Assessment
+# Exploratory Analysis <a name="exploratory-title"></a>
 
 <br>
 ### Data Import <a name="rf-import"></a>
 
-We will be importing the dataset which was in a csv format.  As CLIENTNUM will not be useful in the machine learning model, this will be removed.  We will also ensure that our dataset is being shuffled prior to model building. 
+We will be importing the dataset which was in a csv format.  As CLIENTNUM will not be useful in analysing any trends within the data or in the building of the machine learning model, this will be removed.  We will also ensure that our dataset is being shuffled prior to model building. 
 
 ```python
 
@@ -157,9 +151,9 @@ data_for_model.drop(["CLIENTNUM", "Naive_Bayes_Classifier_Attrition_Flag_Card_Ca
 
 ```
 <br>
-### Exploratory Analysis <a name="rf-exploratory"></a>
+### Exploring the Dataset <a name="rf-exploratory"></a>
 
-First, we will explore the data a little. I can confirm there were no duplicates within the dataset or any columns containing null values. This certainly helps reducing the time spent on data cleaning.
+First, I can confirm there were no duplicates within the dataset or any columns containing null values. This certainly helps in reducing the time spent on data cleaning.
 
 ```python
 df_bankchurn[df_bankchurn.duplicated()]
@@ -174,7 +168,7 @@ plt.show()
 ```
 ![histograms](/img/posts/numerical_features.png "Numerical Features Distribution")
 
-Next, we will look at some correlations. As the Attrition_Flag is categorical, we will first transform this column by replacing 'Attrited Customer' with the value of 1 and 'Existing Customer' with the value of 0. We have also changed the column name to 'target' for easy reference. As we have made some changes to the dataset, we will make a copy so that we will always have the source file to return to if need be.
+Next, we will look at some correlations for the numerical features. As the Attrition_Flag is categorical, we will first transform this column by replacing 'Attrited Customer' with the value of 1 and 'Existing Customer' with the value of 0. We have also changed the column name to 'target' for easy reference. As we have made some changes to the dataset, we will make a copy so that we will always have the source file to return to if need be.
 
 ```python
 bankchurn_corr = df_bankchurn.copy()
@@ -186,6 +180,33 @@ sns.heatmap(corr, linewidths=2, cmap='Greys')
 ```
 
 ![correlation](/img/posts/correlation_matrix.png "Correlation Matrix")
+
+It appears Total_Trans_Ct, Total_Ct_Chng_Q4_Q1 an Total_Revolving_Bal have the highest negative correlation with 'target' while Contacts_Count_12_mon and Months_Inactive_12_mon have the highest positive correlation.
+
+Let's visualise the categorical features
+
+```python
+fig, axarr = plt.subplots(2, 2, figsize=(20,12))
+sns.countplot(x ='Education_Level', hue = 'target', data = bankchurn_corr, ax = axarr[0][0])
+sns.countplot(x ='Marital_Status', hue = 'target', data = bankchurn_corr, ax = axarr[0][1])
+sns.countplot(x ='Income_Category', hue = 'target', data = bankchurn_corr, ax = axarr[1][0])
+sns.countplot(x ='Card_Category', hue = 'target', data = bankchurn_corr, ax = axarr[1][1])
+```
+![categorical](/img/posts/categorical-features.png "Categorical Features")
+
+
+<br>
+
+# Balanced Random Forest <a name="rf-title"></a>
+
+We will utlise the scikit-learn library within Python to model our data using a Random Forest. The code sections below are broken up into 4 key sections:
+
+* Data Import
+* Data Preprocessing
+* Model Training
+* Performance Assessment
+
+<br>
 
 
 <br>
