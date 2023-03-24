@@ -78,7 +78,7 @@ ___
 
 # Data Overview  <a name="data-overview"></a>
 
-We will be predicting the binary *leave* metric from the dataset provided by the client
+We will be predicting the binary *Left* metric from the dataset provided by the client
 
 After this data pre-processing in Python, we have a dataset for modelling that contains the following fields...
 <br>
