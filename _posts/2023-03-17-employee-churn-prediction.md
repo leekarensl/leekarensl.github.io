@@ -78,9 +78,8 @@ ___
 
 # Data Overview  <a name="data-overview"></a>
 
-We will be predicting the binary *Left* metric from the dataset provided by the client
+We will be predicting the binary *Left* metric from the dataset provided by the client. The table below shows the column names of the dataset.
 
-After this data pre-processing in Python, we have a dataset for modelling that contains the following fields...
 <br>
 <br>
 
