@@ -78,11 +78,7 @@ ___
 
 # Data Overview  <a name="data-overview"></a>
 
-We will be predicting the binary *signup_flag* metric from the *campaign_data* table in the client database.
-
-The key variables hypothesised to predict this will come from the client database, namely the *transactions* table, the *customer_details* table, and the *product_areas* table.
-
-We aggregated up customer data from the 3 months prior to the last campaign.
+We will be predicting the binary *leave* metric from the dataset provided by the client
 
 After this data pre-processing in Python, we have a dataset for modelling that contains the following fields...
 <br>
