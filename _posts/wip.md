@@ -526,13 +526,13 @@ plt.legend()
 
 ![alt text](/img/posts/total-revolving-bal.png "Total Revolving Balance Leavers vs Stayers")
 
-
+It appears that customers who leave the credit card service with the bank have fewer transaction counts as well as lower transaction amounts spent on the card. They also tend to have a lower revolving balance.
 ___
 <br>
 
 # Application <a name="modelling-application"></a>
 
-We now have a model object, and the required pre-processing steps to use this model for the next time the company receives new employee data.  When this is ready to launch we can feed the neccessary employee information, obtaining predicted probabilities for each employee leaving.
+We now have our findings as well as our model object to share with the clien. We also have the required pre-processing steps to use this model for the next time the company receives new customer data.  When this is ready to launch we can feed the neccessary customer information, obtaining predicted probabilities for each customer leaving.
 
 ___
 <br>
@@ -543,5 +543,5 @@ While predictive accuracy was relatively high - other modelling approaches could
 
 We could even look to tune the hyperparameters of the Random Forest, notably regularisation parameters such as tree depth, as well as potentially training on a higher number of Decision Trees in the Random Forest.
 
-From a data point of view, further variables could be collected, and further feature engineering could be undertaken to ensure that we have as much useful information available for predicting employee churn.
+From a data point of view, further variables could be collected, and further feature engineering could be undertaken to ensure that we have as much useful information available for predicting customer churn.
 
