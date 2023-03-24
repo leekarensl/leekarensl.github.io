@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Credit Card Customers Exploratory Analysis and Churn Prediction Model
-image: ""
+image: "/posts/credit-credcard-title-img.png"
 tags: [Exploratory Analysis, Customer Churn Prediction, Machine Learning, Classification, Python]
 ---
 
@@ -374,7 +374,7 @@ Running this code gives us:
 
 
 
-### Feature Importance <a name="rf-model-feature-importance"></a>
+### Feature Importance and Permutation Importance <a name="rf-model-feature-importance"></a>
 
 Random Forests are an ensemble model, made up of many, many Decision Trees, each of which is different due to the randomness of the data being provided, and the random selection of input variables available at each potential split point.
 
@@ -422,6 +422,7 @@ That code gives us the plot as seen below:
 
 <br>
 It appears that Feature Importance is flagging that Total_Trans_Ct, Total_Trans_Amt, Total_Ct_Change_Q4_Q1 an Total_Amt_Chng_Q4_Q1 are the most important drivers of customer churn. <br>
+
 
 So what will Permutation Importance flag as the most important drivers?
 
