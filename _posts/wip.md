@@ -82,7 +82,7 @@ ___
 
 We will be predicting the binary *Attrition_Flag* metric from the dataset provided by the client. The client has also requested that the last 2 columns of the dataset be deleted. These were the column names 'Naive_Bayes_Classifier_Attrition_Flag_Card_Category_Contacts_Count_12_mon_Dependent_count_Education_Level_Months_Inactive_12_mon_1' and 'Naive_Bayes_Classifier_Attrition_Flag_Card_Category_Contacts_Count_12_mon_Dependent_count_Education_Level_Months_Inactive_12_mon_2'
 
-The provided dataset contains the following fields...
+The provided dataset (less the 2 deleted columns) contains the following fields...
 <br>
 <br>
 
@@ -103,10 +103,12 @@ The provided dataset contains the following fields...
 | Contacts_Count_12_mon | Independent | The number of contacts in the last 12 months |
 | Credit_Limit | Independent | The credit limit of the account holder on the card |
 | Total_Revolving_Bal | Independent | The customer's total revolving balance on the credit card |
-| PerformanceRating | Independent | The employee's most recent performance rating, with 1 as the lowest and 5 as the highest score |
-| TotalWorkingYears | Independent | The employee's total number of working experience |
-| YearsAtCompany | Independent | The employee's tenure in years in the company |
-| YearsSinceLastPromotion | Independent | The number of years lapsed sinced the employee was last promoted |
+| Avg_Open_To_Buy| Independent | The open to buy credit line that is averaged for the last 12 months |
+| Total_Amt_Chng_Q4_Q1 | Independent | Change in transaction amount (Q4 over Q1) |
+| Total_Trans_Amt | Independent | The customer's total transaction amount over the last 12 months|
+| Total_Trans_Ct | Independent | The customer's total transaction count over the last 12 months |
+| Total_Ct_Chng_Q4_Q1   |   Independent | The customers change in transaction count (Q4 over Q1)    |
+| Avg_Utlisation_Ratio  |   Independent | The customer's average card utilisation ratio
 
 <br>
 # Modelling Overview  <a name="modelling-overview"></a>
