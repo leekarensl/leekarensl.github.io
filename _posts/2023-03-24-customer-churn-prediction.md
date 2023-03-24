@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Credit Card Customers Exploratory Analysis and Churn Prediction Model
-image: "/posts/credit-credcard-title-img.png"
+image: "/posts/credit-card-title-img.png"
 tags: [Exploratory Analysis, Customer Churn Prediction, Machine Learning, Classification, Python]
 ---
 
