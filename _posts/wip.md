@@ -128,7 +128,7 @@ As we are predicting a binary output and due to the unbalanced nature of the dat
 <br>
 ### Data Import <a name="rf-import"></a>
 
-We will be importing the dataset which was in a csv format.  As CLIENTNUM will not be useful in analysing any trends within the data or in the building of the machine learning model, this will be removed.  We will also ensure that our dataset is being shuffled prior to model building. 
+We will be importing the dataset which was in a csv format.  As CLIENTNUM will not be useful in analysing any trends within the data or in the building of the machine learning model, this will be removed.  We will also ensure that our dataset is being shuffled prior to model building. First, we will need to import all libraries needed for this task:
 
 ```python
 
@@ -159,6 +159,14 @@ First, I can confirm there were no duplicates within the dataset or any columns 
 df_bankchurn[df_bankchurn.duplicated()]
 df_bankchurn.isnull().sum()
 ```
+Let's understand the balance of the dataset as that will help determine what algorithm to use for the model. This is also important when assessing classification accuracy.
+
+'''python
+df_bankchurn["Attrition_Flag"].value_counts(normalize = True)
+```
+
+It appears that dataset is highly imbalanced with 84% choosing to stay with their credit cards while 16% chose to terminate their card.
+
 
 The following graphs visualises the distribution of data for all the numerical features in the dataset.
 
@@ -194,25 +202,23 @@ sns.countplot(x ='Card_Category', hue = 'target', data = bankchurn_corr, ax = ax
 ```
 ![categorical](/img/posts/categorical-features.png "Categorical Features")
 
+We know from earlier investigation that most of their customers chose to stay and continue using the credit card. However from the above charts, we can see that the majority of customers who chose to leave were earning less than $40k annually and that they were on the Blue card.
 
 <br>
 
 # Balanced Random Forest <a name="rf-title"></a>
 
-We will utlise the scikit-learn library within Python to model our data using a Random Forest. The code sections below are broken up into 4 key sections:
+Due to the highly imbalance dataset, we will utlise the scikit-learn library within Python to model our data using a Balanced Random Forest. The code sections below are broken up into 3 key sections:
 
-* Data Import
 * Data Preprocessing
 * Model Training
 * Performance Assessment
-
-<br>
 
 
 <br>
 ### Data Preprocessing <a name="rf-preprocessing"></a>
 
-Unlike other classification models like Logistic Regression, a benefit of using Random Forest is that it is not susceptible to the effects of outliers or highly correlated input variables. However as there are a number of categorical independent variables in this dataset, these will need to be pre-processed. As an example, one of the categorical variables in the dataset is Gender where values are 'Male' or 'Female'. The Random Forest algorithm can't deal with data in this format as it can't assign any numerical meaning to it when assessing the relationship between the Gender independent variable and the dependent variable. As gender doesn't have any explicit order to it, in other words, Male isn't higher or lower than Female and vice versa, one approach is to apply One Hot Encoding to this and all other categorical columns.
+Unlike other classification models like Logistic Regression, a benefit of using Random Forest, including Balanced Random Forest, is that it is not susceptible to the effects of outliers or highly correlated input variables. However as there are a number of categorical independent variables in this dataset, these will need to be pre-processed. As an example, one of the categorical variables in the dataset is Gender where values are 'Male' or 'Female'. The Random Forest algorithm can't deal with data in this format as it can't assign any numerical meaning to it when assessing the relationship between the Gender independent variable and the dependent variable. As gender doesn't have any explicit order to it, in other words, Male isn't higher or lower than Female and vice versa, one approach is to apply One Hot Encoding to this and all other categorical columns.
 
 One Hot Encoding can be thought of as a way to represent categorical variables as binary vectors, in other words, a set of new columns for each categorical variable with either a 1 or a 0 saying whether that value is true or not for that observation. These new columns would go into our model as input variables and the original column is discarded.
 
@@ -222,64 +228,50 @@ We also drop one of the new columns using the parameter drop_first = True. We do
 ```python
 
 # One hot encoding for all categorical variables
-data_for_model = pd.get_dummies(data_for_model, columns = ['Gender'],drop_first = True)
-data_for_model = pd.get_dummies(data_for_model, columns = ['MonthlyIncome'],drop_first = True)
-data_for_model = pd.get_dummies(data_for_model, columns = ['Department'],drop_first = True)
-data_for_model = pd.get_dummies(data_for_model, columns = ['BusinessTravel'],drop_first = True)
-data_for_model = pd.get_dummies(data_for_model, columns = ['complaintfiled'],drop_first = True)
-data_for_model = pd.get_dummies(data_for_model, columns = ['Left'],drop_first = True)
-
-```
-We will also investigate the class balance of our dependent variable. This is important when assessing classification accuracy.
-
-```python
-# Checking balance of dataset
-data_for_model["Left_Yes"].value_counts(normalize = True)
+bankchurn_corr = pd.get_dummies(bankchurn_corr, columns = ['Gender'],drop_first = True)
+bankchurn_corr = pd.get_dummies(bankchurn_corr, columns = ['Education_Level'],drop_first = True)
+bankchurn_corr = pd.get_dummies(bankchurn_corr, columns = ['Marital_Status'],drop_first = True)
+bankchurn_corr = pd.get_dummies(bankchurn_corr, columns = ['Income_Category'],drop_first = True)
+bankchurn_corr = pd.get_dummies(bankchurn_corr, columns = ['Card_Category'],drop_first = True)
 
 ```
 
 <br>
-##### SMOTETomek Sampling and Splitting Data For Modelling
-The dataset is found to be imbalanced with 84% of employees staying and only 16% choosing to leave the company. When a dataset is imbalanced, it will lead to bias during model training with the class containing a higher number of samples (in this case, No) preferred more over the class containing a lower number of samples (Yes). In order to overcome this bias of the model, we need to make the dataset balanced, containing an approximately equal number of samples in both classes.
+##### Splitting the Data For Modelling
 
-One way of achieving this is using the SMOTETomek sampling method once the data has been split out for modelling. SMOTETomek works by combining two methods; SMOTE and Tomek links. SMOTE creates new synthetic examples of the minority class by interpolating between existing examples. Tomek links identify pairs of examples from the different classes that are very close to each other and they are removed from the dataset.
+Let's now shuffle the data and split our data into an X object which contain the independent variables and the y object that contains only our dependent variable.  Once we have done this, we will split our data into training and test sets to ensure we can faily validate the accuracy of the predictions on data was not used in training. In this case, we have allocated 80% of the data for training, and the remaining 20% for validation. We will make sure to add in the stratify parameter to ensure that both our training and test sets have the same proportion of customers who did, and did not, churn - meaning we can be more confident in our assessment of predictive performance.
 
 <br>
 ```python
+# shuffling the data first
+bankchurn_corr = shuffle(bankchurn_corr, random_state = 42)
+
 # Splitting data into X and y objects for modelling
-X = data_for_model.drop(["Left_Yes"], axis = 1)
-y = data_for_model["Left_Yes"]
-
-# Using SMOTETomek to sample to create a balanced dataset
-smk = SMOTETomek()
-X,y=smk.fit_resample(X,y)
-X.shape,y.shape
+X = bankchurn_corr.drop(["target"], axis = 1)
+y = bankchurn_corr["target"]
 
 # split out training & test sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 42, stratify = y)
 
 ```
-In the code above we firstly split our data into an X object which contains only the predictor variables, and a y object that contains only our dependent variable. We then use the SMOTETomek sampling method to create a more balanced dataset.
-
-Once we have done this, we split our data into training and test sets to ensure we can fairly validate the accuracy of the predictions on data that was not used in training. In this case, we have allocated 80% of the data for training, and the remaining 20% for validation. We use the stratify parameter to ensure that both our training and test sets have the same proportion of employees who stayed in the company or left, meaning that we can be more confident in our assessment of the model's predictive performance.
 
 <br>
 
 ### Model Training <a name="rf-model-training"></a>
 
-Instantiating and training our Random Forest model is done using the below code.  We use the *random_state* parameter to ensure we get reproducible results, and this helps us understand any improvements in performance with changes to model hyperparameters.
+Instantiating and training our Balanced Random Forest model is done using the below code.  We use the *random_state* parameter to ensure we get reproducible results, and this helps us understand any improvements in performance with changes to model hyperparameters.
 
-We also look to build more Decision Trees in the Random Forest (500) than would be done using the default value of 100.
+We also look to build more Decision Trees in the Random Forest (300) than would be done using the default value of 100.
 
-Lastly, since the default scikit-learn implementation of Random Forests does not limit the number of randomly selected variables offered up for splitting at each split point in each Decision Tree - we put this in place using the *max_features* parameter.  This can always be refined later through testing, or through an approach such as gridsearch.
+Lastly, as the dataset is imbalanced, we will specify the class_weight parameter to be 'balanced'.
 
 ```python
 
 # instantiate our model object
-clf = RandomForestClassifier(random_state = 42, n_estimators = 500, max_features = 5)
+brf = BalancedRandomForestClassifier(n_estimators = 300, random_state= 42, class_weight = "balanced")
 
 # fit our model using our training & test sets
-clf.fit(X_train, y_train)
+brf.fit(X_train, y_train)
 
 ```
 
@@ -295,8 +287,8 @@ In the code below we create one object to hold the binary 1/0 predictions, and a
 ```python
 
 # predict on the test set
-y_pred_class = clf.predict(X_test)
-y_pred_prob = clf.predict_proba(X_test)[:,1]
+y_pred_class = brf.predict(X_test)
+y_pred_prob = brf.predict_proba(X_test)[:,1]
 
 ```
 
@@ -319,12 +311,12 @@ plt.show()
 ```
 
 <br>
-![alt text](/img/posts/rf1-confusion-matrix.png "Random Forest Confusion Matrix")
+![alt text](/img/posts/bank-confusion-matrix.png "Balanced Random Forest Confusion Matrix")
 
 <br>
-The aim is to have a high proportion of observations falling into the top left cell (predicted non-leavers and actual non-leavers) and the bottom right cell (predicted leavers and actual leavers).
+The aim is to have a high proportion of observations falling into the top left cell (predicted non-churners and actual non-churners) and the bottom right cell (predicted churners and actual churners).
 
-Since the proportion of leavers in our data was around 16:84 we will analyse the model accuracy not only using Classification Accuracy, but also Precision, Recall, and F1-Score as they will help us assess how well our model has performed from different points of view.
+Since the proportion of churners in our data was around 16:84 we will analyse the model accuracy not only using Classification Accuracy, but also Precision, Recall, and F1-Score as they will help us assess how well our model has performed from different points of view.
 
 <br>
 #### Classification Performance Metrics
@@ -381,10 +373,10 @@ f1_score(y_test, y_pred_class)
 <br>
 Running this code gives us:
 
-* Classification Accuracy = **0.893** meaning we correctly predicted the class for 89.3% of the test set observations
-* Precision = **0.884** meaning that for our *predicted* leavers, we were correct 88.4% of the time
-* Recall = **0.905** meaning that of all *actual* leavers, we predicted correctly 90.5% of the time
-* F1-Score = **0.895**
+* Classification Accuracy = **0.951** meaning we correctly predicted the class for 95.1% of the test set observations
+* Precision = **0.794** meaning that for our *predicted* leavers, we were correct 79.4% of the time
+* Recall = **0.935** meaning that of all *actual* leavers, we predicted correctly 93.5% of the time
+* F1-Score = **0.859**
 
 
 <br>
