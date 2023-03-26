@@ -532,6 +532,7 @@ plt.legend()
 <br>
 
 It appears that customers who leave the credit card service with the bank have fewer transaction counts as well as lower transaction amounts spent on the card. They also tend to have a lower revolving balance.
+
 ___
 
 
