@@ -10,6 +10,10 @@ layout: default
                 {% endfor %}
             </div>
             {% include pagination.html %}
+            
+                {% if site.google_analytics and jekyll.environment == 'production' %}
+                    {% include analytics.html %}
+                {% endif %}
         </div>
     </div>
 </div>
