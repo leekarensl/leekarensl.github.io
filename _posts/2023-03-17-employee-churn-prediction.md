@@ -157,7 +157,7 @@ It appears that 'Total Working Years', 'Age', 'Years At Company' and 'Job Satisf
 
 The steps above were repeated for high performing employees data only and the results can be summarised as follows:
 
-![correlation-compare](/img/posts/correlation-high-vs-rest.png "High vs Rest")
+![correlation-compare](/img/posts/correlation-high-vs-rest1.png "High vs Rest")
 
 Although the strengths of the correlations differ slightly when looking at the data for high employees only, the Top 4 variables explaining employee attrition remains similar. The factors impacting employee attrition can be summarised as:
 - Job Experience (Total Working Years and Years At Company)
