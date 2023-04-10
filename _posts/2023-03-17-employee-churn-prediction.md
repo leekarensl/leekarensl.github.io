@@ -16,9 +16,10 @@ Our client, company based in London, is concerned about retaining their high per
     - [Growth/Next Steps](#overview-growth)
 - [01. Data Overview](#data-overview)
 - [02. Modelling Overview](#modelling-overview)
-- [03. Random Forest](#rf-title)
-- [04. Application](#modelling-application)
-- [05. Growth & Next Steps](#growth-next-steps)
+- [03. Exploratory Analysis](#exploratory-title)
+- [04. Random Forest](#rf-title)
+- [05. Application](#modelling-application)
+- [06. Growth & Next Steps](#growth-next-steps)
 
 ___
 
@@ -71,7 +72,7 @@ F1 Score = 0.895
 
 While predictive accuracy was relatively high - other modelling approaches could be tested, especially those somewhat similar to Random Forest, for example XGBoost, LightGBM to see if even more accuracy could be gained.
 
-From a data point of view, further variables could be collected, and further feature engineering could be undertaken to ensure that we have as much useful information available for predicting employee churn.
+From a data point of view, further variables could be collected (e.g. reasons for job satisfaction scores, reasons for leaving etc.), and further feature engineering could be undertaken to ensure that we have as much useful information available for predicting employee churn.
 <br>
 <br>
 ___
@@ -112,12 +113,82 @@ If that can be achieved, we can use this model to predict the probability of fut
 
 As we are predicting a binary output and due to the unbalanced nature of the dataset, we will be using the Random Forest algorithm.
 
+<br>
+
+# Initial Exploratory Analysis <a name="exploratory-title"></a>
+
+### Data Import <a name="ea-import"></a>
+
+We will be importing the dataset which was in a csv format. As 'Over18' and 'StandardHours' are 'Y' and '40' respectively for all the rows in the dataset, they are not useful for analysis or for building the machine learning model. So let's drop both. We will also need to import any libraries needed:
+
+```python
+import pandas as pd
+
+# importing data for initial analysis
+df_hr = pd.read_csv("employee.csv")
+
+# dropping both columns
+df_hr = df_hr.drop(["Over18","StandardHours"], axis = 'columns')
+
+```
+The dataset contained some categorical variables which we will deal with using One Hot encoding later on. For now, let's just look at the numerical features and see if there are any correlation to the target variable of employee leaving. We will first have to apply one hot encoding to the target variable 'Left' as this is itself a categorical variable:
+
+```python
+df_hr = pd.get_dummies(df_hr, columns = ['Left'],drop_first = True)
+
+# doing correlations with categorical variables in it produces warning messages.The following code simply ignores it.
+import warnings
+warnings.filterwarnings("ignore")
+
+# setting 'Left_Yes' to be the target and the dropping it from the df_hr dataframe
+df_hr['target'] = df_hr['Left_Yes']
+df_hr = df_hr.drop(["Left_Yes"], axis = 'columns')
+correlations = df_hr.corr()['target'].sort_values()
+print('Positive correlations: \n', correlations.tail(8))
+print('\nNegative correlations: \n', correlations.head(11))
+
+```
+
+![correlation](/img/posts/correlation-entire.png "Correlations with Left_Yes")
+
+It appears that 'Total Working Years', 'Age', 'Years At Company' and 'Job Satisfaction' has the highest correlation with employee leaving. As the client is concerned with high performing employees leaving, let's also investigate the data from their high performing employees only and see how it compares with the entire dataset. We have defined high performing employees as having a **PerformanceRating** score of 3 or greater.
+
+<br>
+
+The steps above were repeated for high performing employees data only and the results can be summarised as follows:
+
+![correlation-compare](/img/posts/correlation-high-vs-rest.png "High vs Rest")
+
+Although the strengths of the correlations differ slightly when looking at the data for high employees only, the Top 4 variables explaining employee attrition remains similar. The factors impacting employee attrition can be summarised as:
+- Job Experience (Total Working Years and Years At Company)
+- Job Satisfaction <br>
+
+Although Age appears as a Top 4, we think that this is because Age has a high positive correlation with Total Working Years (0.68) and Years At Company (0.31)
+
+Let's bear the above in mind when we look at building the machine learning model later on. For now, let's just now look at each of the above factor:
+
+### Job Experience
+
+<br>
+
+![experience-compare](/img/posts/job-experience.png "Job Experience")
+
+It appears that employees were more likely to leave the company at the early stage of their career. The peak of employee attrition happened on the frst year with high performers more likely to leave. This may be caused by employees figuring out their options at the early career stage or felt that there was a mismatch of the job role with their expectations. The attrition trend continues to fluctuate but stablizes around the 10th year. <br>
+
+### Job Satisfaction
+
+<br>
+
+![satisfaction-compare](/img/posts/job-satisfaction.png "Job Satisfaction")
+
+There is a higher number of high performing employees leaving when their job satisfaction score was 1 than with any other scores.
+
 
 <br>
 
 # Random Forest <a name="rf-title"></a>
 
-We will utlise the scikit-learn library within Python to model our data using a Random Forest. The code sections below are broken up into 4 key sections:
+Let's now look at building the prediction model. We will utlise the scikit-learn library within Python to model our data using a Random Forest. The code sections below are broken up into 4 key sections:
 
 * Data Import
 * Data Preprocessing
@@ -127,7 +198,7 @@ We will utlise the scikit-learn library within Python to model our data using a 
 <br>
 ### Data Import <a name="rf-import"></a>
 
-We will be importing the dataset which was in a csv format.  As 'Over18' and 'StandardHours' are 'Y' and '40' respectively for all the rows in the dataset, we have chosen to remove both columns as they will not be useful in the machine learning model.  We will also ensure that our dataset is being shuffled. In addition we will also investigate the class balance of our dependent variable.
+For simplicity, let's just re-import the dataset into a data_for_model dataframe and drop the 2 variables 'Over18' and 'StandardHours' as they will not be useful in the machine learning model.  We will also ensure that our dataset is being shuffled. In addition we will also investigate the class balance of our dependent variable.
 
 ```python
 
@@ -372,13 +443,13 @@ That code gives us the plot as seen below:
 ![alt text](/img/posts/rf2-classification-feature-importance.png "Random Forest Feature Importance Plot")
 
 <br>
-It appears that Age, Job Satisfaction and Job Experience (Total Working Years, Years at Company) are the top drivers in explaining employee churn.
+According to the Random Forest algorithim, it appears that Age, Job Satisfaction and Job Experience (Total Working Years, Years at Company) are the top drivers in explaining employee churn. This matches our earlier findings!
 
 ___
 <br>
 # Application <a name="modelling-application"></a>
 
-We now have a model object, and the required pre-processing steps to use this model for the next time the company receives new employee data.  When this is ready to launch we can feed the neccessary employee information, obtaining predicted probabilities for each employee leaving.
+We now have our findings as well as our model object, and the required pre-processing steps to use this model for the next time the company receives new employee data.  When this is ready to launch we can feed the neccessary employee information, obtaining predicted probabilities for each employee leaving. We will also share our insights from the dataset with the client for them to take action. Perhaps communication on role expectations or company culture can be made clearer at the start of the recruitment funnel to reduce employee attrition on the first year. Further data collection will also be useful in understanding and improving employees' job satisfaction score. Some examples include but not limiting to job autonomy, workload, relationship with manager, development opportunities etc.
 
 ___
 <br>
