@@ -163,9 +163,11 @@ Although the strengths of the correlations differ slightly when looking at the d
 - Job Experience (Total Working Years and Years At Company)
 - Job Satisfaction <br>
 
-Although Age appears as a Top 4, we think that this is because Age has a high positive correlation with Total Working Years (0.68) and Years At Company (0.31)
+Age has a high positive correlation with Total Working Years (0.68) and Years At Company (0.31). Regardless of high or poor performers, the peak of employees leaving appears to be around the late 20s - early 30s group.<br>
 
-Let's bear the above in mind when we look at building the machine learning model later on. For now, let's just now look at each of the above factor:
+![age](/img/posts/age-chart.png "Age High vs Low")
+
+Let's bear the above factors in mind when we look at building the machine learning model later on. For now, let's just now look at each of the factor:
 
 ### Job Experience
 
