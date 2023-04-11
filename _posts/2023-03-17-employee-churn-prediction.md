@@ -175,7 +175,12 @@ Let's bear the above factors in mind when we look at building the machine learni
 
 ![experience-compare](/img/posts/job-experience.png "Job Experience")
 
-It appears that employees were more likely to leave the company at the early stage of their career. The peak of employee attrition happened on the frst year with high performers more likely to leave. This may be caused by employees figuring out their options at the early career stage or felt that there was a mismatch of the job role with their expectations. The attrition trend continues to fluctuate but stablizes around the 10th year. <br>
+It appears that employees were more likely to leave the company at the early stage of their career. The peak of employee attrition happened on the frst year with high performers more likely to leave. The attrition trend continues to fluctuate but stablizes around the 10th year. Our initial hypothesis is that employees are leaving for one or more of the following reasons: <br>
+
+- Employees are at their early career stage and are still figuring out their options.
+- Employees feel that there is a mismatch of the job role or company culture with their own expectations.
+- For the more experienced employees, there has been a better offer elsewhere or they have decided on a career change. <br>
+
 
 ### Job Satisfaction
 
@@ -183,7 +188,7 @@ It appears that employees were more likely to leave the company at the early sta
 
 ![satisfaction-compare](/img/posts/job-satisfaction.png "Job Satisfaction")
 
-There is a higher number of high performing employees leaving when their job satisfaction score was 1 than with any other scores.
+The highest high performing employees leaving when job satisfaction score was 1 than with any other scores. However the attrition numbers were fairly similar across all other scores.
 
 
 <br>
@@ -451,7 +456,9 @@ ___
 <br>
 # Application <a name="modelling-application"></a>
 
-We now have our findings as well as our model object, and the required pre-processing steps to use this model for the next time the company receives new employee data.  When this is ready to launch we can feed the neccessary employee information, obtaining predicted probabilities for each employee leaving. We will also share our insights from the dataset with the client for them to take action. Perhaps communication on role expectations or company culture can be made clearer at the start of the recruitment funnel to reduce employee attrition on the first year. Further data collection will also be useful in understanding and improving employees' job satisfaction score. Some examples include but not limiting to job autonomy, workload, relationship with manager, development opportunities etc.
+We now have our findings as well as our model object, and the required pre-processing steps to use this model for the next time the company receives new employee data.  When this is ready to launch we can feed the neccessary employee information, obtaining predicted probabilities for each employee leaving. We will also share our insights from the dataset with the client for them to take further action. We recommend that further data is needed to confirm our hypothesis. An obvious source would be from a leaving questionnaire, asking the question 'What is the main reason for leaving the company?' If our hypothesis is correct, communication on role expectations or company culture can be made clearer at the start of the recruitment funnel to reduce employee attrition on the first year. To stem attrition of more experienced employees, the company can also carry out frequent pay and role reviews. <br>
+
+There is also a need to understand the reason behind poor job satisfaction scores. Recommendations for further data collection can be made around but not limiting to the following areas: job autonomy, workload, relationship with manager, development opportunities etc.
 
 ___
 <br>
