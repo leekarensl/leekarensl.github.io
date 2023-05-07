@@ -1,11 +1,11 @@
 ---
 layout: post
 title: Creating An Image Search Engine Using Deep Learning
-image: "/posts/dl-search-engine-title-img.png"
+image: "/posts/shoes.png"
 tags: [Deep Learning, CNN, Data Science, Computer Vision, Python]
 ---
 
-In this project we build a Deep Learning based Image Search Engine that will help customers find similar products to ones they want!
+In this project we build a Deep Learning based Image Search Engine that will help our client's customers find similar products to the ones they want!
 
 # Table of contents
 
@@ -27,9 +27,9 @@ ___
 
 ### Context <a name="overview-context"></a>
 
-Our client had been analysing their customer feedback, and one thing in particular came up a number of times.
+Our client, a well known retailer, has been analysing their customer feedback, and one thing in particular came up a number of times.
 
-Their customers are aware that they have a great range of competitively priced products in the clothing section - but have said they are struggling to find the products they are looking for on the website.
+Their customers are aware that they have a great range of competitively priced products in the shoe section - but have said they are struggling to find the products they are looking for on the website.
 
 They are often buying much more expensive products, and then later finding out that we actually stocked a very similar, but lower-priced alternative.
 
@@ -88,7 +88,7 @@ We have been provided with images of the 300 shoes that are currently available 
 ![alt text](/img/posts/search-engine-image-examples.png "Deep Learning Search Engine - Image Examples")
 
 <br>
-We will need to extract & capture the "features" of this base image set, and compare them to the "features" found in any given search image.  The images with the closest match will be returned to the customer!
+We will need to extract & capture the "features" of this base image set, and compare them to the "features" found in any given search image.  The images with the closest match will be returned to the customer.
 
 ___
 <br>
@@ -98,13 +98,13 @@ ___
 <br>
 #### Overview
 
-Transfer Learning is an extremely powerful way for us to utilise pre-built, and pre-trained networks, and apply these in a clever way to solve *our* specific Deep Learning based tasks.  It consists of taking features learned on one problem, and leveraging them on a new, similar problem!
+Transfer Learning is an extremely powerful way for us to utilise pre-built, and pre-trained networks, and apply these in a clever way to solve *our* specific Deep Learning based tasks.  It consists of taking features learned on one problem, and leveraging them on a new, similar problem.
 
 For image based tasks this often means using all the the *pre-learned* features from a large network, so all of the convolutional filter values and feature maps, and instead of using it to predict what the network was originally designed for, piggybacking it, and training just the last part for some other task.
 
 The hope is, that the features which have already been learned will be good enough to differentiate between our new classes, and we’ll save a whole lot of training time (and be able to utilise a network architecture that has potentially already been optimised).
 
-For our Fruit Classification task we will be utilising a famous network known as **VGG16**.  This was designed back in 2014, but even by todays standards is a fairly heft network.  It was trained on the famous *ImageNet* dataset, with over a million images across one thousand different image classes. Everything from goldfish to cauliflowers to bottles of wine, to scuba divers!
+For this specific task we will be utilising a famous network known as **VGG16**.  This was designed back in 2014, but even by todays standards is a fairly heft network.  It was trained on the famous *ImageNet* dataset, with over a million images across one thousand different image classes. Everything from goldfish to cauliflowers to bottles of wine, to scuba divers!
 
 <br>
 ![alt text](/img/posts/vgg16-architecture.png "VGG16 Architecture")
@@ -406,7 +406,7 @@ search_result_files = [filename_store[i] for i in image_indices]
 <br>
 #### Plot Search Results
 
-We now have all of the information about the eight most similar images to our search image - let's see how well it worked by plotting those images!
+We now have all of the information about the eight most similar images to our search image - let's see how well it worked by plotting those images.
 
 We plot them in order from most similar to least similar, and include the cosine distance score for reference (smaller is closer, or more similar)
 
@@ -436,7 +436,7 @@ The search image, and search results are below:
 ![alt text](/img/posts/search-engine-search1-results.png "Search 1: Search Results")
 
 <br>
-Very impressive results!  From the 300 base-set images, these are the eight that have been deemed to be *most similar*!
+Very impressive results!  From the 300 base-set images, these are the eight that have been deemed to be *most similar*.
 
 <br>
 Let's take a look at a second search image...
@@ -450,7 +450,7 @@ Let's take a look at a second search image...
 ![alt text](/img/posts/search-engine-search2-results.png "Search 2: Search Results")
 
 <br>
-Again, these have come out really well - the features from VGG16 combined with Cosine Similarity have done a great job!
+Again, these have come out really well - the features from VGG16 combined with Cosine Similarity have done a great job.
 
 ___
 <br>
@@ -462,7 +462,7 @@ Also, rather than having to fit the Nearest Neighbours to our *feature_vector_st
 
 When applying this in production, we also may want to code up a script that easily adds or removes images from the feature store.  The products that are available in the clients store would be changing all the time, so we'd want a nice easy way to add new feature vectors to the feature_vector_store object - and also potentially a way to remove search results coming back if that product was out of stock, or no longer part of the suite of products that were sold.
 
-Most likely, in production, this would just return a list of filepaths that the client's website could then pull forward as required - the matplotlib code is just for us to see it in action manually!
+Most likely, in production, this would just return a list of filepaths that the client's website could then pull forward as required - the matplotlib code is just for us to see it in action manually.
 
 This was tested only in one category, we would want to test on a broader array of categories - most likely having a saved network for each to avoid irrelevant predictions.
 
