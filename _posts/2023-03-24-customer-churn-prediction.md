@@ -531,6 +531,8 @@ plt.legend()
 
 <br>
 
+In the charts above, **Density** on the y-axis represents the relative concentration of customers at different levels of x-axis. For example in the chart titled 'Total Transaction Count - Attrited vs Existing Count - the higher the density at a given transaction count, the more customers (either attrited or existing) fall within the range. Unlike a histogram which shows raw count, density does not represent absolute numbers but rather the proportion of customers in each category. This smooths out the distribution of data to show trends more clearly.
+
 It appears that customers who leave the credit card service with the bank have fewer transaction counts as well as lower transaction amounts spent on the card. They also tend to have a lower revolving balance.
 
 ___
@@ -538,7 +540,10 @@ ___
 
 # Application <a name="modelling-application"></a>
 
-We now have our findings as well as our model object to share with the clien. We also have the required pre-processing steps to use this model for the next time the company receives new customer data.  When this is ready to launch we can feed the neccessary customer information, obtaining predicted probabilities for each customer leaving.
+We now have our findings as well as our model object to share with the client. As transacton count and transaction amount are the top 2 drivers of customer churn, we would recommend the client to explore the possibility of engaging in targeted promotions or cashback offers to incentivise usage. Offering bundled products (e.g. discounted insurance for credit card holders) can also encourage customers to hold more products with them, the latter being the third driver of predicting customer churn.
+
+
+We also have the required pre-processing steps to use this model for the next time the company receives new customer data.  When this is ready to launch we can feed the neccessary customer information, obtaining predicted probabilities for each customer leaving.
 
 ___
 
